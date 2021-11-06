@@ -5,17 +5,16 @@ add-apt-repository ppa:deadsnakes/ppa -y
 apt install -y python3.9
 apt install -y python3.9-distutils
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 10
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 10
+update-alternatives --install /usr/bin/python python /usr/bin/python3.9 10
+update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 10
 python3 get-pip.py
 rm -rf get-pip.py
-apt-get install -y git python3-venv python3-pip supervisor nginx vim libpq-dev
+apt get install -y git python3-venv python3-pip supervisor nginx vim libpq-dev
 
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
 
-apt-get install nginx
 echo "server {
         listen 80 default_server;
         listen [::]:80 default_server;
@@ -42,7 +41,7 @@ echo "server {
 }" > /etc/nginx/sites-available/$APPNAME
 
 ln -s /etc/nginx/sites-available/$APPNAME /etc/nginx/sites-enabled/$APPNAME
-systemctl nginx restart
+systemctl restart nginx
 #echo "[program:djangoapp]
 #command = /home/ubuntu/$APPNAME/venv/bin/gunicorn $APPNAME.wsgi  -b 127.0.0.1:8000 -w 2 --timeout 90
 #autostart=true
