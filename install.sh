@@ -1,6 +1,16 @@
 export APPNAME="djangoLolInfo"
 apt-get update
-apt-get install -y git python3-dev python3-venv python3-pip supervisor nginx vim libpq-dev
+apt install software-properties-common
+add-apt-repository ppa:deadsnakes/ppa
+apt install -y python3.9
+apt install -y python3.9-distutils
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 10
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 10
+python3 get-pip.py
+rm -rf get-pip.py
+apt-get install -y git python3-venv python3-pip supervisor nginx vim libpq-dev
+
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
