@@ -1,7 +1,7 @@
 export APPNAME="djangoLolInfo"
 apt-get update
-apt install software-properties-common
-add-apt-repository ppa:deadsnakes/ppa
+apt install -y software-properties-common
+add-apt-repository ppa:deadsnakes/ppa -y
 apt install -y python3.9
 apt install -y python3.9-distutils
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
