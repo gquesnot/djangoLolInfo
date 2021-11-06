@@ -43,13 +43,13 @@ echo "server {
 
 ln -s /etc/nginx/sites-available/$APPNAME /etc/nginx/sites-enabled/$APPNAME
 systemctl nginx restart
-echo "[program:djangoapp]
-command = /home/ubuntu/$APPNAME/venv/bin/gunicorn $APPNAME.wsgi  -b 127.0.0.1:8000 -w 2 --timeout 90
-autostart=true
-autorestart=true
-directory=/home/ubuntu/$APPNAME
-stderr_logfile=/var/log/game_muster.err.log
-stdout_logfile=/var/log/game_muster.out.log"
-supervisorctl reread
-supervisorctl update
-supervisorctl restart djangoapp
+#echo "[program:djangoapp]
+#command = /home/ubuntu/$APPNAME/venv/bin/gunicorn $APPNAME.wsgi  -b 127.0.0.1:8000 -w 2 --timeout 90
+#autostart=true
+#autorestart=true
+#directory=/home/ubuntu/$APPNAME
+#stderr_logfile=/var/log/game_muster.err.log
+#stdout_logfile=/var/log/game_muster.out.log"
+#supervisorctl reread
+#supervisorctl update
+#supervisorctl restart djangoapp
