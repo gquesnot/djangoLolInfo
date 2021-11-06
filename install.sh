@@ -38,7 +38,7 @@ echo "server {
             add_header P3P \'CP=\"ALL DSP COR PSAa OUR NOR ONL UNI COM NAV\"\';
             add_header Access-Control-Allow-Origin *;
         }
-}" >> /etc/nginx/sites-available/$APPNAME
+}" > /etc/nginx/sites-available/$APPNAME
 
 ln -s /etc/nginx/sites-available/$APPNAME /etc/nginx/sites-enabled/$APPNAME
 systemctl restart nginx
