@@ -1,7 +1,7 @@
 export APPNAME="djangoLolInfo"
 apt-get update
 apt-get install -y git python3-dev python3-venv python3-pip supervisor nginx vim libpq-dev
-pathon3 -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
 
@@ -12,7 +12,7 @@ echo "server {
 
 
         location /static/ {
-            alias /home/ubuntu/"+$APPNAME+"/static/;
+            alias /home/ubuntu/$APPNAME/static/;
         }
 
 
@@ -34,10 +34,10 @@ echo "server {
 ln -s /etc/nginx/sites-available/$APPNAME /etc/nginx/sites-enabled/$APPNAME
 systemctl nginx restart
 echo "[program:djangoapp]
-command = /home/ubuntu/"+$APPNAME+"/venv/bin/gunicorn "+$APPNAME+".wsgi  -b 127.0.0.1:8000 -w 2 --timeout 90
+command = /home/ubuntu/$APPNAME/venv/bin/gunicorn $APPNAME.wsgi  -b 127.0.0.1:8000 -w 2 --timeout 90
 autostart=true
 autorestart=true
-directory=/home/ubuntu/"+$APPNAME+"
+directory=/home/ubuntu/$APPNAME
 stderr_logfile=/var/log/game_muster.err.log
 stdout_logfile=/var/log/game_muster.out.log"
 supervisorctl reread
