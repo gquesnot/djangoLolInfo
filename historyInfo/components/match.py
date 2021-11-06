@@ -22,6 +22,7 @@ class MatchView(UnicornView):
     dataFull: dict
     dataLight: dict
     modItems: dict[str:Item]
+    items: dict[str:Item]
     dc: DataController
     selectedCategory: int = 0
     itemCategory: list
@@ -96,21 +97,38 @@ class MatchView(UnicornView):
                 "tags": ["LifeSteal", "SpellVamp"],
             },
         ]
+
+        self.badItemTags = [
+            "Consumable",
+            "Vision",
+            "Trinket",
+            "Jungle",
+
+
+        ]
         self.frameId = 0
         self.dataLight = lolWatcher.match.by_id("EUROPE", self.matchId)
         self.dataFull = lolWatcher.match.timeline_by_match("EUROPE", self.matchId)
         self.frames = self.dataFull['info']['frames']
         self.durationS = self.dataLight['info']['gameDuration']
         self.durationM = int(self.durationS / 60)
-        self.modItems = copy.deepcopy(self.dc.items)
+        self.items = dict()
+        for k ,v in self.dc.items.items():
+            if not listMatchList(self.badItemTags, v.tags) and len(v.tags):
+                self.items[k] = v
+        self.modItems = copy.deepcopy(self.items)
         for itemdId, item in self.modItems.items():
-            print(item.name, item.gold)
+            print(item.name, item.tags)
         self.participants = [participantParser(participant, self.getMatchInfoByPuuid(participant['puuid']), self.dc) for
                              participant in self.dataFull['info']['participants']]
 
         self.summonerUpdated(1)
         self.frameUpdated(0)
         # print(self.activeParticipant.items)
+
+    def getActiveParticipant(self):
+        self.activeParticipant = self.participants[self.activeId]
+        return self.activeParticipant
 
     def toggleChangeItems(self):
         self.changeItems = not self.changeItems
@@ -126,41 +144,39 @@ class MatchView(UnicornView):
         res = dict()
         tagToFind = self.itemCategory[id_]['tags']
 
-        for itemId, item in self.dc.items.items():
+        for itemId, item in self.items.items():
             if listMatchList(tagToFind, item.tags):
                 res[itemId] = item
         self.modItems = res
 
     def removeItem(self, idx):
-        print("remove item", self.activeParticipant.modItems[idx])
-        del self.activeParticipant.modItems[idx]
-        self.activeParticipant.updateGold()
+        self.rebuildParticipant()
+        print("remove item", self.participants[self.activeId].modItems[idx])
+        del self.participants[self.activeId].modItems[idx]
+        self.participants[self.activeId].updateGold()
+        self.getActiveParticipant()
 
     def addItem(self, itemId):
-
-        if len(self.activeParticipant.modItems) < 6:
+        self.rebuildParticipant()
+        if len(self.getActiveParticipant().modItems) < 6:
             print("ADD ITEM", self.dc.items[str(itemId)])
 
-            self.activeParticipant.modItems.append(copy.deepcopy(self.dc.items[str(itemId)]))
+            self.participants[self.activeId].modItems.append(copy.deepcopy(self.dc.items[str(itemId)]))
         else:
             print("TO MUCH ITEM")
-        self.activeParticipant.updateGold()
+        self.participants[self.activeId].updateGold()
+        self.getActiveParticipant()
 
     def summonerUpdated(self, summonerId):
-        summonerId = int(summonerId) - 1
-        self.activeId = summonerId
+        self.activeId = int(summonerId) - 1
         self.rebuildParticipant()
+        self.getActiveParticipant()
 
     def rebuildParticipant(self):
         for idx, participant in enumerate(self.participants):
             if not isinstance(participant, Participant):
                 self.participants[idx] = rebuildPartcipant(participant)
-            print(self.participants[idx].summonerName, type(self.participants[idx].calculatedChamp))
-        if isinstance(self.activeParticipant, dict):
-            self.activeParticipant = rebuildPartcipant(self.activeParticipant)
-        elif self.activeParticipant is None:
-            self.activeParticipant = self.participants[self.activeId]
-        print("active", type(self.activeParticipant))
+
 
 
     def getMatchInfoByPuuid(self, puuid):
@@ -176,6 +192,7 @@ class MatchView(UnicornView):
         self.updateToFrame(newFrame)
         print("update frame ok")
         self.frameId = newFrame
+        self.getActiveParticipant()
 
     def updateToFrame(self, newFrame):
 
@@ -188,8 +205,7 @@ class MatchView(UnicornView):
         for participantId, participantFrame in self.frames[newFrame]['participantFrames'].items():
             participant = self.participants[int(participantId) - 1]
             participant.newFrame(participantFrame)
-        self.activeParticipant.newFrame(self.frames[newFrame]['participantFrames'][str(self.activeId + 1) ])
 
         for participantId, participantFrame in self.frames[newFrame]['participantFrames'].items():
             participant = self.participants[int(participantId) - 1]
-            participant.generateDps(self.activeParticipant)
+            participant.generateDps(self.participants[self.activeId])

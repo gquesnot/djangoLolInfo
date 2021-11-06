@@ -97,9 +97,9 @@ class Participant:
     modItems: list[Item]
     champion: Champion
     calculatedChamp: Champion = field(default=None)
-    gold:  int = field(default=0)
-    goldDiff: int= field(default=0)
-    maxGold : int  = field(default=0)
+    gold: int = field(default=0)
+    goldDiff: int = field(default=0)
+    maxGold: int = field(default=0)
     dpsFrom: float = field(default=0)
     adReductionFrom: float = field(default=0)
     dps: float = field(default=0)
@@ -112,7 +112,6 @@ class Participant:
             self.calculatedChamp = copy.deepcopy(self.champion)
         elif isinstance(self.calculatedChamp, dict):
             self.calculatedChamp = dacite.from_dict(Champion, data=fixChamp(self.calculatedChamp))
-        print(participantFrame)
         self.calculatedChamp.updateWithFrame(participantFrame['championStats'])
         self.gold = participantFrame["totalGold"]
 
@@ -131,11 +130,9 @@ class Participant:
             self.goldDiff -= gold
 
     def generateDps(self, me):
-        if not isinstance(me.calculatedChamp , Champion):
-            me.calculatedChamp: Champion = dacite.from_dict(Champion, fixChamp(me.calculatedChamp))
-        myAs = me.calculatedChamp.attackSpeed if me.calculatedChamp.attackSpeed <= 2.5 else 2.5
-        myDps = myAs * me.calculatedChamp.ad
-        armor = (me.calculatedChamp.ad * (1 - me.calculatedChamp.armorPenPercent)) - me.calculatedChamp.armorPen
+
+        armor = (self.calculatedChamp.armor * (1 - me.calculatedChamp.armorPenPercent)) - me.calculatedChamp.armorPen
         self.adReductionFrom = round(100 / (100 + armor), 2) * 100
 
-        self.dpsFrom = round(myDps * self.adReductionFrom / 100, 2)
+        self.dpsFrom = round(me.dps * (self.adReductionFrom / 100), 2)
+        print(self.summonerName, me.summonerName, self.dpsFrom)
