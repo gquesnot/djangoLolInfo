@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load unicorn %}
+{% block content %}
+    <div>
+    <style>
+  [x-cloak] {
+      display: none !important;
+   }
+</style>
+
+    {% unicorn 'match' matchId=matchId modItems=dict itemCategory=list modalIsOpen=False changeItems=False %}
+    </div>
+{% endblock %}

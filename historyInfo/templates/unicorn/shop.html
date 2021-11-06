@@ -1,0 +1,98 @@
+{% load modulo_extras %}
+<div  style="padding-bottom: 3rem">
+    <div class="flex pb-3 justify-center">
+        <div class="mr-3 items-center self-center"> My Item List</div>
+        <div class="flex pr-3">
+            {% for item in activeParticipant.modItems %}
+                <div style="max-width: 60.6167px"><img
+                        unicorn:click="removeItem({{ forloop.counter0 }})"
+                        alt="{{ item.name }}" class="border-warning border"
+                        style="max-width: 50px;cursor: pointer"
+                        src="http://ddragon.leagueoflegends.com/cdn/{{ version }}/img/item/{{ item.id }}.png"/>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="flex">
+        <div class="bg-white shadow overflow-hidden rounded-md w-1/4 mr-6 h-full">
+            <ul role="list" class="divide-y divide-gray-200" >
+
+                <li><button unicorn:click="selectCategory(0)"
+                            {% if selectedCategory == 0 %}
+                                class="btn w-full focus:border-none"
+                                {% else %}
+                                class="btn-white w-full"
+                        {% endif %}
+                    >All Items
+                </button></li>
+            <li><button unicorn:click="selectCategory(1)"
+                            {% if selectedCategory == 1 %}
+                                class="btn w-full focus:border-none"
+                                {% else %}
+                                class="btn-white w-full"
+                        {% endif %}
+                    >Starting Items
+            </button></li>
+            <li><button unicorn:click="selectCategory(2)"
+                            {% if selectedCategory == 2 %}
+                                class="btn w-full focus:border-none"
+                                {% else %}
+                                class="btn-white w-full"
+                        {% endif %}
+                    >Bruiser
+            </button></li>
+            <li><button unicorn:click="selectCategory(3)"
+                            {% if selectedCategory == 3 %}
+                                class="btn w-full focus:border-none"
+                                {% else %}
+                                class="btn-white w-full"
+                        {% endif %}
+                    >Tank
+            </button></li>
+            <li><button unicorn:click="selectCategory(4)"
+                            {% if selectedCategory == 4 %}
+                                class="btn w-full focus:border-none"
+                                {% else %}
+                                class="btn-white w-full"
+                        {% endif %}
+                    >ADC
+            </button></li>
+            <li><button unicorn:click="selectCategory(5)"
+                            {% if selectedCategory == 5 %}
+                                class="btn w-full focus:border-none"
+                                {% else %}
+                                class="btn-white w-full"
+                        {% endif %}
+                    >AP Carry
+            </button>
+            <li><button unicorn:click="selectCategory(6)"
+                            {% if selectedCategory == 6 %}
+                                class="btn w-full focus:border-none"
+                                {% else %}
+                                class="btn-white w-full"
+                        {% endif %}
+                    >Support
+            </button></li>
+
+            </ul>
+        </div>
+
+        <div class="overflow-auto">
+            <ul role="list" class="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8 h-max-xl" style="height: 500px">
+                {% for itemId, item in catItems.items %}
+                    <li class="relative">
+                        <div class="group w-16 block aspect-h-7 aspect-w-6 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+                            <img unicorn:click="addItem({{ itemId }})" alt="{{ item.name }}"
+                                 class="cursor-pointer group-hover:opacity-75 w-16"
+                                 src="http://ddragon.leagueoflegends.com/cdn/{{ version }}/img/item/{{ itemId }}.png">
+                        </div>
+                    </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+
+    </div>
+
+
+</div>

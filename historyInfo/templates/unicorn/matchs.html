@@ -1,0 +1,24 @@
+<div class="px-6">
+
+        <form unicorn:submit.prevent="doSearch" class="w-1/2 flex items-center pt-4" style="width: 25vw">
+
+            <label for="summonerName" class="label"></label>
+            <input unicorn:model.lazy="search" name="summonerName" type="text" class="input mr-4"
+                   id="summonerName" placeholder="Enter Summoner Name">
+
+
+            <button class="btn btn-focus">Submit</button>
+        </form>
+
+    <div class="flex flex-wrap pt-4 flex-column">
+        {% if matchList %}
+            {% for match in matchList %}
+                <div class="mx-4">
+                
+                    <a href="{% url 'matchById' matchId=match %}" class="btn w-40 mb-4">{{ match }}</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+</div>

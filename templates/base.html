@@ -1,0 +1,33 @@
+{% load unicorn %}
+{% load static %}
+{% load tailwind_tags %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Lol Histry Info</title>
+
+    <link rel='stylesheet' href="{% static 'css/style.css' %}" type='text/css'>
+    {% tailwind_css %}
+    {#    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">#}
+{#    <link rel='stylesheet' href="{% static 'css/bootstrap.css' %}" type='text/css'>#}
+{#    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>#}
+{#    <script src="{% static 'js/bootstrap.js' %}"></script>#}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.3.0/alpine.js" integrity="sha512-nIwdJlD5/vHj23CbO2iHCXtsqzdTTx3e3uAmpTm4x2Y8xCIFyWu4cSIV8GaGe2UNVq86/1h9EgUZy7tn243qdA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {% unicorn_scripts %}
+
+</head>
+<body class="bg-light">
+{% csrf_token %}
+<div class="">
+    <div class="">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+
+</body>
+</html>

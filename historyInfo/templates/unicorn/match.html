@@ -1,0 +1,290 @@
+{% load unicorn %}
+<div xmlns:unicorn="http://www.w3.org/1999/xhtml" class="max-w-7xl mx-auto">
+    <!-- put component code here -->
+    <div class="bg-white">
+        <div class="w-full  py-16 px-4 sm:pt-24 sm:pb-12 sm:px-6 lg:px-8 lg:flex lg:justify-between">
+            <div class="max-w-xl">
+                <h2 class="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl pb-6">{{ matchId }}</h2>
+
+            </div>
+            {% if participants %}
+
+                <div class="mt-10 w-full max-w-xs">
+                    <label for="selectedSummoner" class="block text-base font-medium text-gray-500">Summoner</label>
+                    <div class="mt-1.5 relative">
+                        <select id="selectedSummoner" name="selectedSummoner"
+                                unicorn:change="summonerUpdated($event.target.value)"
+                                class="appearance-none block w-full bg-none bg-white border border-gray-300 rounded-md pl-3 pr-10 py-2 text-base text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            {% for participant in participants %}
+
+                                <option value="{{ participant.id }}">{{ participant.summonerName }}</option>
+
+
+                            {% endfor %}
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 px-2 flex items-center">
+                            <!-- Heroicon name: solid/chevron-down -->
+                            <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                 fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <h1>{{ dc.versionUrl }}</h1>
+
+
+    {% if participants and activeParticipant %}
+
+
+
+        <h4 class="title">My Stats</h4>
+        <div class="flex pb-4">
+            <div class="flex pr-3">
+                {% for item in activeParticipant.modItems %}
+                    <div style="max-width: 60.6167px" class="mx-2"><img alt="{{ item.name }}"
+                                                                        class="border border-1 border-black"
+                                                                        style="max-width: 50px;cursor: pointer"
+                                                                        src="http://ddragon.leagueoflegends.com/cdn/{{ version }}/img/item/{{ item.id }}.png"/>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button
+                    class="btn"
+                    u:click="openModal">Edit Item
+            </button>
+            <div class="flex items-center justify-between w-50 ml-6">
+
+                <!-- Enabled: "bg-indigo-600", Not Enabled: "bg-gray-200" -->
+                <button type="button"
+                        unicorn:click="toggleChangeItems"
+                        {% if changeItems %}
+                            class="bg-indigo-600 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+
+                        {% else %}
+                            class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+
+                        {% endif %}
+                        role="switch" aria-checked="false" aria-labelledby="availability-label"
+                        aria-describedby="availability-description"
+
+                >
+                    <!-- Enabled: "translate-x-5", Not Enabled: "translate-x-0" -->
+                    <span aria-hidden="true"
+                            {% if changeItems %}
+                          class="translate-x-5 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+                            {% else %}
+                          class="translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+                            {% endif %}
+
+
+                    >
+
+                    </span>
+
+                </button>
+            <span class="flex-grow flex flex-col ml-4">
+    <span class="text-sm font-medium text-gray-900 " id="availability-label">Change Items On Frame Update?</span>
+
+  </span>
+            </div>
+
+        </div>
+        {% if modalIsOpen %}
+            <div x-show="openModal">
+                <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog">
+                    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                             aria-hidden="true"></div>
+
+                        <!-- This element is to trick the browser into centering the modal contents. -->
+                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                              aria-hidden="true">&#8203;</span>
+
+                        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-4 sm:align-middle sm:w-full sm:p-6"
+                             style="max-width: 70rem"
+                        >
+                            <div>
+                                {#                            {% unicorn 'shop' activeParticipant=activeParticipant catItems=dc.items items=dc.items version=dc.version parent=view %}#}
+                                <div style="padding-bottom: 3rem">
+                                    <div class="flex pb-3">
+                                        <div class="mr-3 items-center self-center w-1/4"> My Item List</div>
+                                        <div class="flex pr-3 w-1/2">
+                                            {% for item in activeParticipant.modItems %}
+
+                                                <div class="w-16 h-20 block aspect-w-6 mx-2 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+                                                    <img unicorn:click="removeItem({{ forloop.counter0 }})"
+                                                         alt="{{ item.name }}"
+                                                         class="cursor-pointer group-hover:opacity-75 w-16 h-18"
+                                                         src="http://ddragon.leagueoflegends.com/cdn/{{ version }}/img/item/{{ item.id }}.png">
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="items-center self-center">
+                                            <h5 class="title">Actual Gold: {{ activeParticipant.goldDiff }}</h5>
+                                        </div>
+                                        <div></div>
+                                    </div>
+                                    <div class="flex">
+                                        <div class="bg-white shadow overflow-hidden rounded-md w-1/4 mr-6 h-full">
+                                            <ul role="list" class="divide-y divide-gray-200">
+                                                {% for category in itemCategory %}
+                                                    <li>
+                                                        <button unicorn:click="selectCategory({{ forloop.counter0 }})"
+                                                                {% if selectedCategory ==  forloop.counter0 %}
+                                                                class="btn w-full focus:border-none"
+                                                                {% else %}
+                                                                class="btn-white w-full"
+                                                                {% endif %}
+                                                                style="height:2rem"
+                                                        >{{ category.name }}
+                                                        </button>
+                                                    </li>
+                                                {% endfor %}
+
+
+                                            </ul>
+                                        </div>
+
+                                        <div class="overflow-auto w-3/4">
+                                            <ul role="list"
+                                                class="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8"
+                                                style="max-height: 480px">
+                                                {% for itemId, item in modItems.items %}
+                                                    <li class="group w-16 block rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+
+                                                        <img unicorn:click="addItem({{ itemId }})"
+                                                             alt="{{ item.name }}"
+                                                             class="cursor-pointer group-hover:opacity-75 w-16"
+                                                             src="http://ddragon.leagueoflegends.com/cdn/{{ version }}/img/item/{{ itemId }}.png">
+
+                                                    </li>
+                                                {% endfor %}
+
+                                            </ul>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                            <div class="mt-5 sm:mt-6 flex">
+                                <button type="button"
+                                        class="mt-3 mx-3 w-1/3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm">
+                                    reset
+                                </button>
+                                <button type="button" u:click="closeModal"
+                                        class="mt-3 mx-3 w-1/3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm">
+
+                                    Close
+                                </button>
+                                <button type="button" u:click="closeModal"
+                                        class="w-1/3 mx-3 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm">
+
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+        <p class="p">champName : {{ activeParticipant.calculatedChamp.name }}</p>
+        <p class="p">ad : {{ activeParticipant.calculatedChamp.ad }}</p>
+        <p class="p">attackSpeed : {{ activeParticipant.calculatedChamp.attackSpeed }}</p>
+        <p class="p">armorPen : {{ activeParticipant.calculatedChamp.armorPen }}</p>
+        <p class="p">armorPenPercent : {{ activeParticipant.calculatedChamp.armorPenPercent }}</p>
+        <p class="p">dps : {{ activeParticipant.dps }}</p>
+        <div class="flex content-center py-8" x-data="{frameIdJs: 0, maxTime: {{ durationM }}}"
+             style="min-width: 75vw">
+            <div class="w-full">
+                <label for="timeline" class="title flex">Timeline: {{ frameId }} minutes</label>
+                <input type="range" value="0" class="w-1/2"
+                       unicorn:change="frameUpdated($event.target.value)" max="{{ durationM }}" step="1"
+                       id="timeline">
+            </div>
+
+        </div>
+        <h4 class="title">Enemy</h4>
+        <div class="flex flex-col">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    #
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Summoner Name
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Champion
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    damage Taken
+                                </th>
+                                <th scope="col" class="relative px-6 py-3">
+                                    armor
+                                </th>
+                                <th scope="col" class="relative px-6 py-3">
+                                    dps
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for participant in participants %}
+                                {% if activeParticipant.teamId != participant.teamId %}
+                                    <tr class="bg-white">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            {{ participant.id }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ participant.summonerName }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ participant.champion.name }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ participant.adReductionFrom }}%
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            {{ participant.calculatedChamp.armor }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            {{ participant.dpsFrom }}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+</div>
+<script>
+    //set timeline 0
+    document.querySelector('#timeline').value = 0
+</script>

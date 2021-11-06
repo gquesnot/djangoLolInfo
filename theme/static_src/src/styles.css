@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.btn-focus{
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+}
+
+
+.input{
+    @apply shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md;
+}
+
+.label{
+    @apply block text-lg font-medium text-gray-700;
+}
+
+.p{
+    @apply mt-5 text-xl text-gray-500;
+}
+
+.title{
+    @apply text-2xl font-bold py-4;
+}
+.btn-white{
+    @apply inline-flex items-center rounded-md border h-10 border-gray-300 shadow-sm px-4 py-2 text-sm font-medium rounded-md bg-white text-base;
+}
+.btn {
+  @apply inline-flex items-center px-4 py-2 border h-10 border-indigo-300 text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 ;
+}
