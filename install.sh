@@ -16,18 +16,14 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 
 echo "server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+        listen 80;
 
+        server_name 13.36.2.198;
 
         location /static/ {
             alias /home/ubuntu/$APPNAME/static/;
         }
 
-
-        location /media/ {
-            alias /home/ubuntu/djangoapp/media/;
-        }
 
 
         location / {
