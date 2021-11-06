@@ -1,8 +1,6 @@
 export APPNAME="djangoLolInfo"
 apt-get update
 apt-get install -y git python3-dev python3-venv python3-pip supervisor nginx vim libpq-dev
-# shellcheck disable=SC2164
-cd $APPNAME
 pathon3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
