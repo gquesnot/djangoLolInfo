@@ -11,7 +11,7 @@ from util.jsonfunction import listMatchList
 
 
 class MatchView(UnicornView):
-    matchId: str
+    matchId: str = ""
     frameId: int = 0
     durationM: int = 0
     version: str = ""
