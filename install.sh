@@ -6,7 +6,7 @@ apt get install -y software-properties-common supervisor nginx vim libpq-dev pyt
      build-essential libssl-dev libffi-dev \
      libxml2-dev libxslt1-dev zlib1g-dev \
      python-pip
-add-apt-repository ppa:deadsnakes/ppa
+add-apt-repository ppa:deadsnakes/ppa -y
 apt install -y python3.9 python3.9-distutils
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 10
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
