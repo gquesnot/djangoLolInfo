@@ -24,7 +24,7 @@ echo "server {
             proxy_set_header X-Forwarded-Host \$server_name;
             proxy_set_header X-Real-IP \$remote_addr;
             proxy_redirect off;
-            add_header P3P \'CP=\"ALL DSP COR PSAa OUR NOR ONL UNI COM NAV\"\';
+            add_header P3P 'CP=\"ALL DSP COR PSAa OUR NOR ONL UNI COM NAV\"';
             add_header Access-Control-Allow-Origin *;
         }
 }" > /etc/nginx/sites-available/$APPNAME
