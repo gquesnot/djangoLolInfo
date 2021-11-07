@@ -16,15 +16,13 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 
 echo "server {
-        listen 80;
+        listen  80;
 
         server_name 13.36.2.198;
 
         location /static/ {
             alias /home/ubuntu/$APPNAME/static/;
         }
-
-
 
         location / {
             proxy_pass http://127.0.0.1:8000;
@@ -35,8 +33,10 @@ echo "server {
             add_header Access-Control-Allow-Origin *;
         }
 }" > /etc/nginx/sites-available/$APPNAME
+if ! test -f "/etc/nginx/sites-enabled/$APPNAME"; then
+  ln -s /etc/nginx/sites-available/$APPNAME /etc/nginx/sites-enabled/$APPNAME
+fi
 
-ln -s /etc/nginx/sites-available/$APPNAME /etc/nginx/sites-enabled/$APPNAME
 systemctl restart nginx
 #echo "[program:djangoapp]
 #command = /home/ubuntu/$APPNAME/venv/bin/gunicorn $APPNAME.wsgi  -b 127.0.0.1:8000 -w 2 --timeout 90
