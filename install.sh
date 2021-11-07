@@ -1,7 +1,5 @@
 export APPNAME="djangoLolInfo"
-
 apt get update -y
-
 apt get install -y software-properties-common supervisor nginx vim libpq-dev python3 python-dev python3-dev \
      build-essential libssl-dev libffi-dev \
      libxml2-dev libxslt1-dev zlib1g-dev \
@@ -34,7 +32,7 @@ echo "server {
         }
 }" > /etc/nginx/sites-available/$APPNAME
 if ! test -f "/etc/nginx/sites-enabled/$APPNAME"; then
-  ln -s /etc/nginx/sites-available/$APPNAME /etc/nginx/sites-enabled/$APPNAME
+  ln -s /etc/nginx/sites-enabled/$APPNAME /etc/nginx/sites-available/$APPNAME
 fi
 
 systemctl restart nginx
