@@ -1,6 +1,6 @@
 export APPNAME="djangoLolInfo"
-apt get update -y
-apt get install -y software-properties-common supervisor nginx vim libpq-dev python3 python-dev python3-dev \
+apt update -y
+apt install -y software-properties-common supervisor nginx vim libpq-dev python3 python-dev python3-dev \
      build-essential libssl-dev libffi-dev \
      libxml2-dev libxslt1-dev zlib1g-dev \
      python-pip
