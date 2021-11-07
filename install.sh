@@ -40,7 +40,7 @@ autostart=true
 autorestart=true
 directory=/home/ubuntu/$APPNAME
 stderr_logfile=/var/log/game_muster.err.log
-stdout_logfile=/var/log/game_muster.out.log"
+stdout_logfile=/var/log/game_muster.out.log" > /etc/supervisor/conf.d/djangoapp.conf
 supervisorctl reread
 supervisorctl update
 supervisorctl restart djangoapp
