@@ -1,6 +1,6 @@
 export APPNAME="djangoLolInfo"
 apt update -y
-apt install -y software-properties-common supervisor nginx vim libpq-dev python3 python3-django python-dev python3-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt1-dev zlib1g-dev
+apt install -y software-properties-common gunicorn supervisor nginx vim libpq-dev python3 python3-django python-dev python3-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt1-dev zlib1g-dev
 add-apt-repository ppa:deadsnakes/ppa -y
 apt install -y python3.9 python3.9-distutils
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 10
@@ -35,7 +35,7 @@ fi
 
 systemctl restart nginx
 echo "[program:djangoapp]
-command = /home/ubuntu/$APPNAME/venv/bin/gunicorn $APPNAME.wsgi  -b 127.0.0.1:8000 -w 2 --timeout 90
+command = gunicorn $APPNAME.wsgi  -b 127.0.0.1:8000 -w 2 --timeout 90
 autostart=true
 autorestart=true
 directory=/home/ubuntu/$APPNAME
