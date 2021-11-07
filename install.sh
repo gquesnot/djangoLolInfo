@@ -9,10 +9,7 @@ update-alternatives --install /usr/bin/python python /usr/bin/python3.9 10
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 10
 python3 get-pip.py
 rm -rf get-pip.py
-apt get install -y git python3-venv python3-pip supervisor nginx vim libpq-dev
-
-python3 -m venv venv
-source venv/bin/activate
+apt get install -y git supervisor nginx vim libpq-dev
 pip3 install -r requirements.txt
 
 echo "server {
