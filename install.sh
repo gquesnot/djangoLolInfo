@@ -1,12 +1,13 @@
 export APPNAME="djangoLolInfo"
-add-apt-repository ppa:deadsnakes/ppa -y
+
 apt get update -y
-apt get upgrade -y
+
 apt get install -y software-properties-common supervisor nginx vim libpq-dev python3 python-dev python3-dev \
      build-essential libssl-dev libffi-dev \
      libxml2-dev libxslt1-dev zlib1g-dev \
      python-pip python3.9  python3.9-distutils
-
+add-apt-repository ppa:deadsnakes/ppa
+apt install python3.9
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 10
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3 get-pip.py
