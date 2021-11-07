@@ -1,9 +1,10 @@
 export APPNAME="djangoLolInfo"
 apt update -y
-apt install -y software-properties-common supervisor nginx vim libpq-dev python3 python-dev python3-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt1-dev zlib1g-dev
+apt install -y software-properties-common supervisor nginx vim libpq-dev python3 python3-django python-dev python3-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt1-dev zlib1g-dev
 add-apt-repository ppa:deadsnakes/ppa -y
 apt install -y python3.9 python3.9-distutils
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 10
+update-alternatives --install /usr/bin/python python /usr/bin/python3.9 10
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3 get-pip.py
 rm -rf get-pip.py
@@ -33,13 +34,13 @@ if ! test -f "/etc/nginx/sites-enabled/$APPNAME"; then
 fi
 
 systemctl restart nginx
-#echo "[program:djangoapp]
-#command = /home/ubuntu/$APPNAME/venv/bin/gunicorn $APPNAME.wsgi  -b 127.0.0.1:8000 -w 2 --timeout 90
-#autostart=true
-#autorestart=true
-#directory=/home/ubuntu/$APPNAME
-#stderr_logfile=/var/log/game_muster.err.log
-#stdout_logfile=/var/log/game_muster.out.log"
-#supervisorctl reread
-#supervisorctl update
-#supervisorctl restart djangoapp
+echo "[program:djangoapp]
+command = /home/ubuntu/$APPNAME/venv/bin/gunicorn $APPNAME.wsgi  -b 127.0.0.1:8000 -w 2 --timeout 90
+autostart=true
+autorestart=true
+directory=/home/ubuntu/$APPNAME
+stderr_logfile=/var/log/game_muster.err.log
+stdout_logfile=/var/log/game_muster.out.log"
+supervisorctl reread
+supervisorctl update
+supervisorctl restart djangoapp
