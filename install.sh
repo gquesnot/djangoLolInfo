@@ -36,7 +36,7 @@ fi
 
 systemctl restart nginx
 echo "[program:djangoapp]
-command = gunicorn $APPNAME.wsgi  -b 127.0.0.1:8000 -w 4 --timeout 90
+command = sudo gunicorn $APPNAME.wsgi  -b 127.0.0.1:8000 -w 4 --timeout 90
 autostart=true
 autorestart=true
 directory=/home/ubuntu/$APPNAME
