@@ -18,7 +18,6 @@ python3 -m pip install -r requirements.txt
 
 echo "server {
         listen  80;
-
         server_name 13.36.2.198;
 
         location /static/ {
