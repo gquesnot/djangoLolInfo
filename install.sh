@@ -29,7 +29,7 @@ echo "server {
         }
 }" > /etc/nginx/sites-available/$APPNAME
 if ! test -f "/etc/nginx/sites-enabled/$APPNAME"; then
-  ln -s /etc/nginx/sites-enabled/$APPNAME /etc/nginx/sites-available/$APPNAME
+  ln -s /etc/nginx/sites-available/$APPNAME /etc/nginx/sites-enabled/$APPNAME
 fi
 
 systemctl restart nginx
