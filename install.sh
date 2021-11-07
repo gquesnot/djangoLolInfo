@@ -1,19 +1,19 @@
 export APPNAME="djangoLolInfo"
-apt-get update
-apt install -y software-properties-common
-add-apt-repository ppa:deadsnakes/ppa -y
-apt install -y python3.9
-apt install -y python3.9-distutils
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+apt-get update -y
 
-python3 get-pip.py
-rm -rf get-pip.py
-apt get install -y git supervisor nginx vim libpq-dev python3 python-dev python3-dev \
+add-apt-repository ppa:deadsnakes/ppa -y
+apt-get update -y
+apt get install -y software-properties-common supervisor nginx vim libpq-dev python3 python-dev python3-dev \
      build-essential libssl-dev libffi-dev \
      libxml2-dev libxslt1-dev zlib1g-dev \
-     python-pip
-update-alternatives --install /usr/bin/python python /usr/bin/python3.9 10
+     python-pip python3.9  python3.9-distutils
+
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 10
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3 get-pip.py
+rm -rf get-pip.py
+
+
 python3 -m pip install -r requirements.txt
 
 echo "server {
