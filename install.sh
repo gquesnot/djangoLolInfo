@@ -1,9 +1,6 @@
 export APPNAME="djangoLolInfo"
 apt update -y
-apt install -y software-properties-common supervisor nginx vim libpq-dev python3 python-dev python3-dev \
-     build-essential libssl-dev libffi-dev \
-     libxml2-dev libxslt1-dev zlib1g-dev \
-     python-pip
+apt install -y software-properties-common supervisor nginx vim libpq-dev python3 python-dev python3-dev build-essential libssl-dev libffi-dev libxml2-dev libxslt1-dev zlib1g-dev
 add-apt-repository ppa:deadsnakes/ppa -y
 apt install -y python3.9 python3.9-distutils
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 10
